@@ -1,0 +1,41 @@
+name: Generate and Save Video
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight UTC (optional)
+
+jobs:
+  generate-video:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}  # For pushing changes
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        pip install matplotlib numpy
+
+    - name: Run video generation script
+      run: python generate_video.py
+
+    - name: Commit and push video if changed
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add output/*.mp4
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Add generated video [$(date +'%Y-%m-%d')]"
+          git push
+        fi
