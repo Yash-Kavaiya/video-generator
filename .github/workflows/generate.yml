@@ -21,6 +21,11 @@ jobs:
       with:
         python-version: '3.12'
 
+    - name: Install ffmpeg
+      run: |
+        sudo apt update
+        sudo apt install -y ffmpeg
+
     - name: Install dependencies
       run: |
         pip install matplotlib numpy
