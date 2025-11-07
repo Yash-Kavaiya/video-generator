@@ -1,4 +1,4 @@
-name: Generate and Save Video
+name: Generate and Save Videos Dynamically
 
 on:
   push:
@@ -10,7 +10,7 @@ permissions:
   contents: write  # Grants write access to repository contents
 
 jobs:
-  generate-video:
+  generate-videos:
     runs-on: ubuntu-latest
 
     steps:
@@ -33,17 +33,21 @@ jobs:
       run: |
         pip install matplotlib numpy
 
-    - name: Run video generation script
-      run: python generate_video.py
+    - name: Run all Python scripts
+      run: |
+        for script in *.py; do
+          echo "Running $script..."
+          python "$script"
+        done
 
-    - name: Commit and push video if changed
+    - name: Commit and push videos if changed
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add output/*.mp4
         if git diff --staged --quiet; then
-          echo "No changes to commit"
+          echo "No new videos to commit"
         else
-          git commit -m "Add generated video [$(date +'%Y-%m-%d')]"
+          git commit -m "Add generated videos [$(date +'%Y-%m-%d')]"
           git push
         fi
