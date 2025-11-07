@@ -24,10 +24,10 @@ jobs:
       with:
         python-version: '3.12'
 
-    - name: Install ffmpeg
+    - name: Install system dependencies
       run: |
         sudo apt update
-        sudo apt install -y ffmpeg
+        sudo apt install -y ffmpeg sox libcairo2 libcairo2-dev libpangocairo-1.0-dev pkg-config
 
     - name: Install dependencies
       run: |
