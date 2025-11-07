@@ -31,7 +31,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        pip install matplotlib numpy
+        pip install matplotlib numpy manim
 
     - name: Run all Python scripts
       run: |
