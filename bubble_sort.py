@@ -56,8 +56,10 @@ class MergeSortAnimator:
             k += 1
             colors[k - 1] = 'green'
             # Reset highlights
-            colors[left + i] = 'lightblue' if i < n1 else 'white'
-            colors[mid + 1 + j] = 'lightblue' if j < n2 else 'white'
+            if left + i < len(colors):
+                colors[left + i] = 'lightblue' if i < n1 else 'white'
+            if mid + 1 + j < len(colors):
+                colors[mid + 1 + j] = 'lightblue' if j < n2 else 'white'
 
         # Copy remaining elements
         while i < n1:
@@ -136,7 +138,7 @@ class MergeSortAnimator:
             ax_text.set_xlim(0, 1)
             ax_text.set_ylim(0, 1)
             ax_text.axis('off')
-            return bars + [text_obj]
+            return list(bars) + [text_obj]
 
         ani = animation.FuncAnimation(fig, animate, frames=len(self.states), interval=1500, blit=False, repeat=False)
         return ani
